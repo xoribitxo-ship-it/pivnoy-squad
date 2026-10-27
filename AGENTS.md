@@ -35,4 +35,4 @@ $env:npm_config_https_proxy = "http://127.0.0.1:12334"
 
 - Git — портативный, `C:\Users\user\AppData\Local\Programs\PortableGit2\cmd` (уже в PATH пользователя).
 - Ветка `main`, коммиты короткие и по одной правке.
-- Деплой на Vercel статикой. Не создавай новый проект Vercel молча: адрес `pivnoy-squad.vercel.app` должен сохраниться.
+- Деплой на Vercel статикой, репозиторий GitHub `xoribitxo-ship-it/pivnoy-squad` связан с проектом: пуш в `main` деплоит сам. Не создавай новый проект Vercel молча: адрес `pivnoy-squad.vercel.app` должен сохраниться.
