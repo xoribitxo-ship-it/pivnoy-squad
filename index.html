@@ -35,6 +35,26 @@ html.dark body .step strong{color:#f5d58a}
 html.dark body .step p{color:#d0d8ed}
 html.dark body .step b,html.dark body .step a{color:#ffe9b0}
 html.dark body .step-num{background:#f5d58a;color:#151a2a;box-shadow:2px 2px #2b3c5b}
+.mug .steam{position:absolute;left:50%;bottom:100%;width:0;height:0;margin-left:-2px;pointer-events:none}
+.mug .steam:before,.mug .steam:after{content:"";position:absolute;width:5px;height:5px;background:#fff2cd;opacity:0;animation:ps-puff 3.4s steps(7,end) infinite}
+.mug .steam:before{bottom:0;left:-7px;animation-delay:-2.1s}
+.mug .steam:after{bottom:7px;left:3px;animation-delay:-1s}
+.mugright .steam:before{animation-delay:-1.3s}
+.mugright .steam:after{animation-delay:-2.8s}
+@keyframes ps-puff{0%{opacity:0;transform:translateY(3px)}16%{opacity:.95}68%{opacity:.5}100%{opacity:0;transform:translateY(-11px)}}
+.nt-stars rect{animation:nt-twinkle 4.2s ease-in-out infinite}
+.nt-stars rect:nth-child(2n){animation-duration:5.6s;animation-delay:-1.8s}
+.nt-stars rect:nth-child(3n){animation-duration:3.3s;animation-delay:-.9s}
+@keyframes nt-twinkle{0%,100%{opacity:1}50%{opacity:.3}}
+.nt-smoke rect{animation:nt-smoke 4.8s ease-out infinite;transform-box:fill-box;transform-origin:50% 100%}
+.nt-smoke rect:nth-child(2){animation-delay:1.6s}
+.nt-smoke rect:nth-child(3){animation-delay:3.2s}
+@keyframes nt-smoke{0%{opacity:.4;transform:translateY(3px)}60%{opacity:.12}100%{opacity:0;transform:translateY(-9px)}}
+.nt-warm{animation:nt-warm 7s ease-in-out infinite}
+@keyframes nt-warm{0%,100%{opacity:.12}50%{opacity:.26}}
+.nt-lamp{animation:nt-lamp 4.4s ease-in-out infinite}
+@keyframes nt-lamp{0%,88%,100%{opacity:1}92%{opacity:.45}95%{opacity:.9}}
+@media(prefers-reduced-motion:reduce){.mug .steam,.nt-stars rect,.nt-smoke rect,.nt-warm,.nt-lamp{animation:none}}
 .status{margin-top:10px;border:3px solid #4d321c;background:#1b120c;padding:12px 14px;display:flex;flex-direction:column;gap:6px;min-width:0}
 .status-main{display:flex;align-items:center;gap:10px;min-width:0}
 .status-dot{width:10px;height:10px;flex:none;background:#8a7a63;box-shadow:0 0 0 1px #00000066}
@@ -53,7 +73,7 @@ html.dark body .status[data-state=online] strong{color:#a9e38a}
 </style></head><body><main class="wrap"><div class="top"><span>■ ПИВНОЙ СКВАД</span><span>JAVA · 1.21.11</span><button class="theme-toggle" id="themeToggle" type="button" aria-pressed="false"><span class="tt-ghost" aria-hidden="true">☀ СВЕТЛАЯ ТЕМА</span><span class="tt-live" id="themeLabel">☾ ТЁМНАЯ ТЕМА</span></button></div><nav class="jump"><a href="#taverna">ТАВЕРНА</a><a href="#start">КАК НАЧАТЬ</a><a href="#story">ИСТОРИЯ СКВАДА</a><a href="#board">ОБЪЯВЛЕНИЯ</a></nav>
 <section id="taverna" class="scene" aria-label="Таверна Пивного Сквада"><div class="sign">★ ТАВЕРНА СКВАДА ★</div><div class="deco d1"></div><div class="deco d2"></div><div class="shelf"></div><div class="bottle b1"></div><div class="bottle b2"></div><div class="bottle b3"></div><div class="bottle b4"></div><div class="bottle b5"></div><div class="bottle b6"></div><div class="bottle b7"></div><div class="bottle b8"></div>
 <div class="character char1"><div class="name">MoreThanSkill</div><img class="skin" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAwCAYAAABwrHhvAAADVUlEQVR4nNWYPUxTURTHf6UttrSkBo2KCRFMMdgQIC5OmBidHIhp3Fy7iBqXxjiYMCgDbn6g0bg4OLgJYWAg1Rhj4q5xUAYTYlDko9qvR4Hn8Hp4vhveu0U0r/6X275z7v+d87/3nXPfC6DB8aNJEyAWjQDQ0hL19C+VygAUyxUA3n74FPDyb9IF8K8R0jmomcei3gpsF42vgJp5vDXm6V8sl7cVQOMroGZ+7dQRAO68+QxAqWw4/Pfv2wvA12/f6wqg8RWQNT1/OQtA99AQAPkX9wC4/ngGgLtPnwMwOTkJwKNbN+oKoPEVkMrW0dHhuB6OtwJwM3MasBUQP5mng+8KeNZpgI/jV0yAxIE9AOxqawMgcfKSw+/Hy3EAKouLAOTnrbH74u3/vBeomcvaB4NW7O93H7OIYnHLzzSteXUG4LsCgVQqZQKsr68DUCqVHA5NTVaMhUIBgPnXDwGoFoq18afD//C5EQDicUuRWMyqoK78fyOLnSAUDAYBkDEQsDZttVoFYG1tDYCxsTEADp64AMCXVw8cRIfOZB1+o6OjDl43/pBhOJuJQJ0gSCSs7ZW++mTL6+p8Hb//SyCbZGNjA7A3i0gvkW4X4XAYgEgk4snvvwKVSmVLg6y9TgHJ1G2+jj/U3NwM2BKtrq46RlkiFSKlikwmA0Bvb68jATd+/5dg83GoVTyzVsslYoFklkwmAfel6evrc8zX8fuvgPyQiNRRNkt/fz8AxWLRk1D81QLmxh9SS676XyRzg9tTIPN0/P4vgUiqbg55zGSstyLKfMlQHjc3fu2JSHaviqmpKQBSqRRg1wtJaHZ2FoCuri5P/tC7Z9YBQg4WxtISYB8qz96fcUyQG0iNV6HadfyhcHzrSlfvmU4HHb92CZZqEQvULqmz66B9L+js7DR/J5Qzndy4vb0dL7thGJ730Cqg9u9y7WXVrb+rdh38rwM6B2nXgoWFBcDOWGffcQBqT4jWvpi49QzVLqX3jwMQgs32WStM0gPqtbuh8feAZDY4OAjYGU1PT9dl33EAAwMDAGSz1pvP3NwcACsrK4Bdct3suVzOk19biNLptOPlVYUUIDf7xMREY3+g0CqQy+VMgHw+D9jn/OXlZQB6enrwsg8PD3ve4xceQ8rW8LolkgAAAABJRU5ErkJggg==" alt="Скин Minecraft MoreThanSkill" width="32" height="48"></div><div class="character char2"><div class="name">Undead_xD</div><img class="skin" src="/undead-sprite.png" alt="Скин Minecraft Undead_xD" width="128" height="256"></div>
-<div class="counter"><div class="mug mugleft"></div><div class="mug mugright"></div></div><div class="floor"></div><svg class="night" viewBox="0 0 900 470" preserveAspectRatio="xMidYMax slice" aria-hidden="true" focusable="false">
+<div class="counter"><div class="mug mugleft"><span class="steam"></span></div><div class="mug mugright"><span class="steam"></span></div></div><div class="floor"></div><svg class="night" viewBox="0 0 900 470" preserveAspectRatio="xMidYMax slice" aria-hidden="true" focusable="false">
 <defs>
 <linearGradient id="nt-sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#070c19"/><stop offset=".55" stop-color="#0d1830"/><stop offset="1" stop-color="#16253a"/></linearGradient>
 <pattern id="nt-wood" width="16" height="16" patternUnits="userSpaceOnUse"><rect width="16" height="16" fill="#3a2718"/><rect width="2" height="16" fill="#2a1a10"/><rect x="8" width="2" height="16" fill="#2a1a10"/></pattern>
@@ -61,7 +81,7 @@ html.dark body .status[data-state=online] strong{color:#a9e38a}
 <filter id="nt-glow" x="-100%" y="-100%" width="300%" height="300%"><feGaussianBlur stdDeviation="7"/></filter>
 </defs>
 <rect width="900" height="470" fill="url(#nt-sky)"/>
-<g fill="#d9e3ff"><rect x="60" y="40" width="3" height="3" opacity=".85"/><rect x="120" y="92" width="3" height="3" opacity=".6"/><rect x="198" y="52" width="3" height="3" opacity=".75"/><rect x="262" y="122" width="3" height="3" opacity=".5"/><rect x="330" y="68" width="3" height="3" opacity=".7"/><rect x="420" y="40" width="3" height="3" opacity=".55"/><rect x="500" y="96" width="3" height="3" opacity=".8"/><rect x="588" y="44" width="3" height="3" opacity=".6"/><rect x="642" y="112" width="3" height="3" opacity=".5"/><rect x="788" y="82" width="3" height="3" opacity=".7"/><rect x="842" y="150" width="3" height="3" opacity=".45"/><rect x="730" y="168" width="3" height="3" opacity=".6"/><rect x="92" y="170" width="3" height="3" opacity=".5"/><rect x="462" y="152" width="3" height="3" opacity=".65"/></g>
+<g class="nt-stars" fill="#d9e3ff"><rect x="60" y="40" width="3" height="3" opacity=".85"/><rect x="120" y="92" width="3" height="3" opacity=".6"/><rect x="198" y="52" width="3" height="3" opacity=".75"/><rect x="262" y="122" width="3" height="3" opacity=".5"/><rect x="330" y="68" width="3" height="3" opacity=".7"/><rect x="420" y="40" width="3" height="3" opacity=".55"/><rect x="500" y="96" width="3" height="3" opacity=".8"/><rect x="588" y="44" width="3" height="3" opacity=".6"/><rect x="642" y="112" width="3" height="3" opacity=".5"/><rect x="788" y="82" width="3" height="3" opacity=".7"/><rect x="842" y="150" width="3" height="3" opacity=".45"/><rect x="730" y="168" width="3" height="3" opacity=".6"/><rect x="92" y="170" width="3" height="3" opacity=".5"/><rect x="462" y="152" width="3" height="3" opacity=".65"/></g>
 <g><rect x="596" y="40" width="52" height="52" fill="#f8e6a8" opacity=".55" filter="url(#nt-glow)"/><rect x="600" y="44" width="44" height="44" fill="#f8e6a8"/><rect x="610" y="54" width="10" height="8" fill="#e4cf92"/><rect x="628" y="72" width="8" height="6" fill="#e4cf92"/></g>
 <polygon fill="#0f2119" points="0,470 0,346 60,346 60,338 120,338 120,332 180,332 180,326 240,326 240,320 300,320 300,316 360,316 360,320 420,320 420,326 480,326 480,330 540,330 540,336 600,336 600,340 660,340 660,344 720,344 720,348 780,348 780,352 840,352 840,356 900,356 900,470"/>
 <g fill="#0a1c16"><use href="#nt-tree" transform="translate(0,344) scale(1.7)"/><use href="#nt-tree" transform="translate(38,346) scale(1.55)"/><use href="#nt-tree" transform="translate(74,344) scale(1.75)"/><use href="#nt-tree" transform="translate(112,346) scale(1.5)"/><use href="#nt-tree" transform="translate(148,344) scale(1.7)"/><use href="#nt-tree" transform="translate(186,348) scale(1.45)"/><use href="#nt-tree" transform="translate(220,344) scale(1.7)"/><use href="#nt-tree" transform="translate(258,348) scale(1.5)"/><use href="#nt-tree" transform="translate(292,350) scale(1.3)"/><use href="#nt-tree" transform="translate(788,350) scale(1.3)"/><use href="#nt-tree" transform="translate(828,352) scale(1.15)"/><use href="#nt-tree" transform="translate(862,350) scale(1.25)"/></g>
@@ -73,15 +93,15 @@ html.dark body .status[data-state=online] strong{color:#a9e38a}
 <rect x="304" y="306" width="132" height="62" fill="url(#nt-wood)" stroke="#140d08" stroke-width="4"/>
 <polygon points="300,310 300,302 308,302 308,294 316,294 316,286 324,286 324,278 332,278 332,270 340,270 340,262 348,262 348,254 356,254 356,246 364,246 364,242 380,242 380,246 388,246 388,254 396,254 396,262 404,262 404,270 412,270 412,278 420,278 420,286 428,286 428,294 436,294 436,302 444,302 444,310" fill="#4a2c17" stroke="#140d08" stroke-width="4"/>
 <rect x="412" y="252" width="12" height="30" fill="#33221a" stroke="#140d08" stroke-width="3"/>
-<g fill="#5a6474"><rect x="416" y="238" width="8" height="8" opacity=".32"/><rect x="422" y="226" width="8" height="8" opacity=".22"/><rect x="414" y="214" width="10" height="10" opacity=".13"/></g>
-<rect x="318" y="312" width="46" height="40" fill="#f5bd5b" opacity=".14"/>
+<g class="nt-smoke" fill="#5a6474"><rect x="416" y="238" width="8" height="8" opacity=".32"/><rect x="422" y="226" width="8" height="8" opacity=".22"/><rect x="414" y="214" width="10" height="10" opacity=".13"/></g>
+<rect class="nt-warm" x="318" y="312" width="46" height="40" fill="#f5bd5b" opacity=".14"/>
 <rect x="324" y="318" width="34" height="28" fill="#f5bd5b" stroke="#2b1a0f" stroke-width="4"/>
 <rect x="339" y="318" width="4" height="28" fill="#2b1a0f"/>
 <rect x="324" y="331" width="34" height="4" fill="#2b1a0f"/>
 <rect x="392" y="330" width="28" height="38" fill="#1a110a" stroke="#140d08" stroke-width="3"/>
 <rect x="412" y="350" width="4" height="4" fill="#e8b75a"/>
 <rect x="294" y="328" width="6" height="40" fill="#2b1a0f"/>
-<g transform="rotate(-9 300 332)"><rect x="262" y="308" width="54" height="20" fill="#6b4322" stroke="#140d08" stroke-width="3"/><rect x="270" y="314" width="9" height="8" fill="#e8b75a"/><rect x="270" y="312" width="9" height="3" fill="#fff0c9"/><rect x="285" y="316" width="20" height="3" fill="#3a2718"/><rect x="285" y="322" width="14" height="3" fill="#3a2718"/></g>
+<g transform="rotate(-9 300 332)"><rect x="262" y="308" width="54" height="20" fill="#6b4322" stroke="#140d08" stroke-width="3"/><rect x="270" y="314" width="9" height="8" fill="#e8b75a" class="nt-lamp"/><rect x="270" y="312" width="9" height="3" fill="#fff0c9"/><rect x="285" y="316" width="20" height="3" fill="#3a2718"/><rect x="285" y="322" width="14" height="3" fill="#3a2718"/></g>
 <g><rect x="452" y="334" width="30" height="34" rx="4" fill="#6b4322" stroke="#140d08" stroke-width="3"/><rect x="452" y="340" width="30" height="3" fill="#2b1a0f"/><rect x="452" y="352" width="30" height="3" fill="#2b1a0f"/><rect x="452" y="361" width="30" height="3" fill="#2b1a0f"/><rect x="462" y="334" width="2" height="34" fill="#4a2c17"/><rect x="472" y="334" width="2" height="34" fill="#4a2c17"/></g>
 <g fill="#1f3a2b"><rect x="256" y="380" width="4" height="4"/><rect x="272" y="388" width="4" height="6"/><rect x="500" y="378" width="4" height="4"/><rect x="524" y="386" width="4" height="6"/><rect x="596" y="390" width="4" height="4"/><rect x="344" y="394" width="4" height="5"/><rect x="372" y="400" width="4" height="4"/><rect x="636" y="396" width="4" height="5"/><rect x="216" y="392" width="4" height="5"/></g>
 <g fill="#2a3a33"><rect x="286" y="402" width="6" height="4"/><rect x="470" y="392" width="8" height="5"/><rect x="556" y="406" width="6" height="4"/><rect x="166" y="402" width="6" height="4"/></g>
