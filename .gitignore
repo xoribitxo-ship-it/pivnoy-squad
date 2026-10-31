@@ -6,3 +6,8 @@ Thumbs.db
 
 .vercel
 .env*
+_light.html
+_dark.html
+_diag.html
+_test-*.html
+_frame*.html
