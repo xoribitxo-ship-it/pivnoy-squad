@@ -259,7 +259,7 @@ html.dark body .sound-toggle[aria-pressed=true]{color:#241408;background:linear-
 <rect x="392" y="330" width="28" height="38" fill="#1a110a" stroke="#140d08" stroke-width="3"/>
 <rect x="412" y="350" width="4" height="4" fill="#e8b75a"/>
 <rect x="294" y="328" width="6" height="40" fill="#2b1a0f"/>
-<g transform="rotate(-9 300 332)"><rect x="262" y="308" width="54" height="20" fill="#6b4322" stroke="#140d08" stroke-width="3"/><rect x="270" y="314" width="9" height="8" fill="#e8b75a" class="nt-lamp"/><rect x="270" y="312" width="9" height="3" fill="#fff0c9"/><rect x="285" y="316" width="20" height="3" fill="#46301d"/><rect x="285" y="322" width="14" height="3" fill="#46301d"/></g>
+<g transform="rotate(-9 300 332)"><rect x="250" y="304" width="68" height="30" rx="2" fill="#6b4322" stroke="#140d08" stroke-width="3"/><rect x="258" y="298" width="9" height="9" fill="#e8b75a" class="nt-lamp"/><rect x="258" y="296" width="9" height="3" fill="#fff0c9"/><text x="298" y="315" font-size="8" fill="#ffe9b0" font-family="Verdana,Arial,sans-serif" font-weight="700" text-anchor="middle" letter-spacing=".5">ПУПУ</text><text x="298" y="328" font-size="8" fill="#ffe9b0" font-family="Verdana,Arial,sans-serif" font-weight="700" text-anchor="middle" letter-spacing=".5">КАКА</text></g>
 <g><rect x="452" y="334" width="30" height="34" rx="4" fill="#6b4322" stroke="#140d08" stroke-width="3"/><rect x="452" y="340" width="30" height="3" fill="#2b1a0f"/><rect x="452" y="352" width="30" height="3" fill="#2b1a0f"/><rect x="452" y="361" width="30" height="3" fill="#2b1a0f"/><rect x="462" y="334" width="2" height="34" fill="#4a2c17"/><rect x="472" y="334" width="2" height="34" fill="#4a2c17"/></g>
 <g fill="#3d3014"><rect x="256" y="380" width="4" height="4"/><rect x="272" y="388" width="4" height="6"/><rect x="500" y="378" width="4" height="4"/><rect x="524" y="386" width="4" height="6"/><rect x="596" y="390" width="4" height="4"/><rect x="344" y="394" width="4" height="5"/><rect x="372" y="400" width="4" height="4"/><rect x="636" y="396" width="4" height="5"/><rect x="216" y="392" width="4" height="5"/></g>
 <g fill="#4c3d1e"><rect x="286" y="402" width="6" height="4"/><rect x="470" y="392" width="8" height="5"/><rect x="556" y="406" width="6" height="4"/><rect x="166" y="402" width="6" height="4"/></g>
@@ -313,10 +313,50 @@ const themeQuery=matchMedia("(prefers-color-scheme:dark)");themeQuery.addEventLi
  btn.addEventListener("click",()=>{if(on)disable();else enable().catch(()=>{on=false;setUI()})});
  document.addEventListener("visibilitychange",()=>{if(!ctx)return;if(document.hidden){if(on){hiddenPause=true;clearTimers();ctx.suspend()}}else if(on&&hiddenPause){hiddenPause=false;ctx.resume().then(()=>startScene(current||kindNow(),true)).catch(()=>{})}});
  new MutationObserver(()=>{if(on)startScene(kindNow());else setUI()}).observe(document.documentElement,{attributes:true,attributeFilter:["class"]});
- window.__tavernMeow=()=>{
-  const make=ac=>{const t=ac.currentTime,o=ac.createOscillator(),g=ac.createGain();o.type="triangle";o.frequency.setValueAtTime(520,t);o.frequency.linearRampToValueAtTime(880,t+.11);o.frequency.linearRampToValueAtTime(620,t+.32);g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(.13,t+.025);g.gain.exponentialRampToValueAtTime(.0001,t+.38);o.connect(g).connect(ac.destination);o.start(t);o.stop(t+.4)};
-  if(ctx&&on){ctx.resume().catch(()=>{});make(ctx)}else{const ac=new AC();make(ac);setTimeout(()=>ac.close(),700)}
- };
+window.__tavernMeow=()=>{
+   const make=ac=>{
+    const t=ac.currentTime;
+    const base=rnd(0.85,1.18);
+    const f0=520*base,f1=760*base,f2=1180*base;
+    const dur=rnd(0.42,0.62);
+    const g=ac.createGain();
+    const master=ac.createGain();master.gain.value=0.22;
+    // основной ладер + обертон + шум хрипа
+    const o=ac.createOscillator(),o2=ac.createOscillator(),o3=ac.createOscillator();
+    const lp=ac.createBiquadFilter(),hp=ac.createBiquadFilter();
+    o.type="sawtooth";o.frequency.setValueAtTime(f0,t);
+    o2.type="square";o2.frequency.setValueAtTime(f1,t);
+    o3.type="triangle";o3.frequency.setValueAtTime(f2,t);
+    lp.type="lowpass";lp.frequency.setValueAtTime(1600,t);lp.Q.value=2;
+    hp.type="highpass";hp.frequency.value=180;
+    // дрожь частоты (vibrato) в середине
+    const lfo=ac.createOscillator(),lg=ac.createGain();
+    lfo.type="sine";lfo.frequency.setValueAtTime(6.5,t);lg.gain.value=26;
+    lfo.connect(lg).connect(o.frequency);
+    // огибающая: резкий подъём, плавное затухание
+    g.gain.setValueAtTime(0.0001,t);
+    g.gain.exponentialRampToValueAtTime(1,t+0.018);
+    g.gain.exponentialRampToValueAtTime(0.55,t+0.10);
+    g.gain.exponentialRampToValueAtTime(0.0001,t+dur);
+    o.connect(lp);o2.connect(lp);o3.connect(lp);
+    lp.connect(hp).connect(g).connect(master).connect(ac.destination);
+    o.start(t);o2.start(t);o3.start(t);lfo.start(t);
+    o.stop(t+dur+0.05);o2.stop(t+dur+0.05);o3.stop(t+dur+0.05);lfo.stop(t+dur+0.05);
+    // второй, более тихий мем сзади («мурр»)
+    const t2=t+dur*0.55;
+    const g2=ac.createGain();g2.gain.value=0.14;
+    const o4=ac.createOscillator();
+    o4.type="sine";o4.frequency.setValueAtTime(f0*0.5,t2);
+    const g2env=ac.createGain();
+    g2env.gain.setValueAtTime(0.0001,t2);
+    g2env.gain.exponentialRampToValueAtTime(1,t2+0.05);
+    g2env.gain.exponentialRampToValueAtTime(0.0001,t2+dur*0.7);
+    o4.connect(g2env).connect(g2).connect(master);
+    o4.start(t2);o4.stop(t2+dur*0.7+0.05);
+    setTimeout(()=>ac.close(),(dur+0.3)*1000);
+   };
+   if(ctx&&on){ctx.resume().catch(()=>{});make(ctx)}else{const ac=new AC();make(ac);setTimeout(()=>ac.close(),1200)}
+  };
  setUI();
 })();
 (()=>{const scene=document.querySelector(".scene");const say=document.getElementById("catSay");const cats=Array.from(document.querySelectorAll(".cat[data-cat]"));if(!scene||!say||!cats.length)return;const phrases={bw:["Мяу!","Мурр…","Я тут главный","Пиво? Мне?","Не трогай кружку","Ты принёс рыбу?","Мяу-мяу"],ginger:["Мяу!","Мурр…","Гладишь — не останавливайся","Ещё пива!","Я рыжий, мне можно","Тёплое место","Мяу?"]};let last="",timer=0;const show=cat=>{const list=phrases[cat.dataset.cat]||phrases.bw;let text=list[Math.floor(Math.random()*list.length)];if(text===last&&list.length>1)text=list[(list.indexOf(text)+1)%list.length];last=text;const r=cat.getBoundingClientRect(),s=scene.getBoundingClientRect();let left=r.left-s.left+r.width/2;let top=r.top-s.top-6;left=Math.max(84,Math.min(s.width-84,left));top=Math.max(66,top);say.hidden=false;say.textContent=text;say.style.left=left+"px";say.style.top=top+"px";clearTimeout(timer);timer=setTimeout(()=>{say.hidden=true},2400);if(window.__tavernMeow)window.__tavernMeow()};cats.forEach(cat=>{cat.addEventListener("click",()=>show(cat));cat.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();show(cat)}})})})();
